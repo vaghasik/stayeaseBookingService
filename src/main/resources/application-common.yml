@@ -1,0 +1,90 @@
+# ============================================================================
+# COMMON / SHARED configuration
+# Imported by every environment file (application-<env>.yml) via
+# `spring.config.import`. Put only environment-agnostic settings here.
+# ============================================================================
+spring:
+  application:
+    name: stayease-hotel-booking
+
+  # JPA / Hibernate - Flyway manages schema, so Hibernate must NOT auto-generate DDL
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    defer-datasource-initialization: false
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Flyway handles migrations - disable old SQL init scripts
+  sql:
+    init:
+      mode: never
+
+  # Flyway configuration for database migrations (common across all profiles)
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+# Application information for /actuator/info endpoint
+info:
+  app:
+    name: StayEase Hotel Booking Service
+    description: Capstone Project - Hotel Room Booking System
+    version: 0.0.1-SNAPSHOT
+    author: Dinesh Sahu
+    email: dinesh.sahu@apexon.com
+    team: Team 45
+    project: Capstone_FSEJAVA_Team45
+
+server:
+  port: 8080
+
+# Spring Boot Actuator endpoints for health checks and monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,flyway,loggers
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  health:
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+
+# JWT configuration for authentication
+app:
+  jwt:
+    secret: ${JWT_SECRET:c3RheWVhc2Utand0LXNlY3JldC1rZXktZm9yLWRldmVsb3BtZW50LXB1cnBvc2VzLW9ubHktbXVzdC1iZS1jaGFuZ2VkLWluLXByb2R1Y3Rpb24tZW52aXJvbm1lbnQ=}
+    expiration-ms: 1800000 # 30 minutes in milliseconds
+    # expiration-ms: 86400000 # 24 hours in milliseconds
+
+# SpringDoc OpenAPI / Swagger UI configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha

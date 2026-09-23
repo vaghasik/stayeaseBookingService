@@ -1,0 +1,12 @@
+# ============================================================================
+# Entry point config. Only selects the active/default environment profile.
+# All real settings live in:
+#   - application-common.yml  (shared, imported by each env)
+#   - application-local.yml   (default: in-memory H2)
+#   - application-dev.yml     (shared Postgres dev)
+#   - application-prod.yml    (Postgres prod)
+# Override with: --spring.profiles.active=dev|prod  (or SPRING_PROFILES_ACTIVE)
+# ============================================================================
+spring:
+  profiles:
+    default: local

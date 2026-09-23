@@ -1,0 +1,30 @@
+# ============================================================================
+# PROD environment - PostgreSQL (JDBC) with Flyway migrations.
+# Secrets come from environment variables; never commit real credentials.
+# To go live, set DB_URL / DB_USERNAME / DB_PASSWORD.
+# Activate with: --spring.profiles.active=prod
+# ============================================================================
+spring:
+  config:
+    import: classpath:application-common.yml
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:}
+
+logging:
+  level:
+    org.hibernate.SQL: WARN
+    org.flywaydb: INFO

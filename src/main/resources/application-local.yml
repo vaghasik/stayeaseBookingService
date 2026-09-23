@@ -1,0 +1,28 @@
+# ============================================================================
+# LOCAL environment (developer machine) - PostgreSQL (local installation).
+# Uses your locally installed PostgreSQL instance for development.
+# Activated by default (see application.yml -> spring.profiles.default).
+# Uses default 'postgres' database - no need to create separate database!
+# Flyway will automatically create tables and populate data on first run.
+# ============================================================================
+spring:
+  config:
+    import: classpath:application-common.yml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.flywaydb: DEBUG
+    org.springframework.boot.autoconfigure: DEBUG
